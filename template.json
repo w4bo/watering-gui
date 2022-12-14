@@ -1,11 +1,163 @@
 [{
-	"plant": [{
-		"name": "LAI",
+	"field": [{
+		"name": "Location latitude",
+		"type": "text",
+		"default": "",
+		"mandatory": "true"
+	}, {
+		"name": "Location longitude",
+		"type": "text",
+		"default": "",
+		"mandatory": "true"
+	}, {
+		"name": "Location altitude",
+		"type": "text",
+		"default": "",
+		"mandatory": "true"
+	},  {
+		"name": "Horizontal field slope",
+		"type": "text",
+		"default": "",
+		"mandatory": "true"
+	}, {
+		"name": "Vertical field slope",
+		"type": "text",
+		"default": "",
+		"mandatory": "true"
+	},  {
+		"name": "Mound slope",
+		"type": "text",
+		"default": "",
+		"mandatory": "true"
+	}, {
+		"name": "Mound width",
+		"type": "text",
+		"default": "",
+		"mandatory": "true"
+	}],
+	"model": [{
+		"name": "Simulated volume length",
 		"type": "range",
-		"default": "0",
-		"values": [0, 10],
+		"default": "1",
+		"values": [1, 10],
 		"scale": "linear",
 		"mandatory": "true"
+	}, {
+		"name": "Simulated volume width",
+		"type": "range",
+		"default": "1",
+		"values": [1, 10],
+		"scale": "linear",
+		"mandatory": "true"
+	}, {
+		"name": "Simulated volume depth",
+		"type": "range",
+		"default": "1",
+		"values": [1, 10],
+		"scale": "linear",
+		"mandatory": "true"
+	}, {
+		"name": "Horizontal/vertical water conductivity ratio",
+		"type": "range",
+		"default": "1",
+		"values": [0, 1],
+		"scale": "linear",
+		"mandatory": "true"
+	}],
+	"soil": [{
+		"name": "Thickness",
+		"type": "range",
+		"default": "1",
+		"values": [0.5, 1.5],
+		"scale": "linear",
+		"mandatory": "true"
+	}, {
+		"name": "Sand percentage",
+		"type": "range",
+		"default": "30",
+		"values": [0, 100],
+		"scale": "linear",
+		"mandatory": "true"
+	}, {
+		"name": "Silt percentage",
+		"type": "range",
+		"default": "30",
+		"values": [0, 100],
+		"scale": "linear",
+		"mandatory": "true"
+	}, {
+		"name": "Clay percentage",
+		"type": "range",
+		"default": "40",
+		"values": [0, 100],
+		"scale": "linear",
+		"mandatory": "true"
+	}, {
+		"name": "Saturated hydraulic conductivity (K_sat)",
+		"type": "range",
+		"default": "0.0000006",
+		"values": [0.0000001, 0.001],
+		"scale": "logarithmic",
+		"mandatory": "false",
+		"hyperparopt": "true"
+	}, {
+		"name": "Saturated hydraulic content (Theta_s)",
+		"type": "range",
+		"default": "0.5",
+		"values": [0.0, 1.0],
+		"scale": "linear",
+		"mandatory": "false",
+		"hyperparopt": "true"
+	}, {
+		"name": "Residual hydraulic content (Theta_r)",
+		"type": "range",
+		"default": "0.03",
+		"values": [0.0, 1.0],
+		"scale": "linear",
+		"mandatory": "false",
+		"hyperparopt": "true"
+	}, {
+		"name": "Van Genuchten inverse air sunction (alpha)",
+		"type": "range",
+		"default": "2.2",
+		"values": [0.5, 5],
+		"scale": "logarithmic",
+		"mandatory": "false",
+		"hyperparopt": "true"
+	}, {
+		"name": "Van Genuchten pore-size distribution (n)",
+		"type": "range",
+		"default": "1.33",
+		"values": [1, 2],
+		"scale": "logarithmic",
+		"mandatory": "false",
+		"hyperparopt": "true"
+	}, {
+		"name": "Van Genuchten air mat. pot. (he)",
+		"type": "range",
+		"default": "0.23",
+		"values": [0, 15],
+		"scale": "logarithmic",
+		"mandatory": "false",
+		"hyperparopt": "true"
+	}],
+	"plant": [{
+		"name": "Canopy radius",
+		"type": "range",
+		"default": "1",
+		"values": [1, 3],
+		"scale": "linear",
+		"mandatory": "false",
+		"hyperparopt": "true"
+
+	}, {
+		"name": "Leaf area Index (LAI)",
+		"type": "range",
+		"default": "4",
+		"values": [0.5, 5],
+		"scale": "linear",
+		"mandatory": "false",
+		"hyperparopt": "true"
 	}, {
 		"name": "Root shape",
 		"type": "radiogroup",
@@ -14,15 +166,23 @@
 			"https://media.istockphoto.com/id/817203414/it/vettoriale/insieme-di-radici-degli-alberi.jpg?s=612x612&w=is&k=20&c=z9osf8fG3NMgrPxu7UVNcPFdoEftG-86gb9X2cbJyxM=",
 			"https://media.istockphoto.com/id/817203414/it/vettoriale/insieme-di-radici-degli-alberi.jpg?s=612x612&w=is&k=20&c=z9osf8fG3NMgrPxu7UVNcPFdoEftG-86gb9X2cbJyxM="
 		],
-		"mandatory": "true"
-	}],
-	"soil": [{
-		"name": "ksat",
+		"mandatory": "false",
+		"hyperparopt": "true"
+	}, {
+		"name": "Maximum crop coefficient (Kc_max)",
+		"type": "range",
+		"default": "1.65",
+		"values": [0.5, 3],
+		"scale": "linear",
+		"mandatory": "false",
+		"hyperparopt": "true"
+	}, {
+		"name": "Readily available water fraction (fRAW)",
 		"type": "range",
 		"default": "0.5",
-		"values": [0.1, 10],
-		"scale": "logarithmic",
+		"values": [0, 1],
+		"scale": "linear",
 		"mandatory": "false",
-		"hyperpar-opt": "true"
+		"hyperparopt": "true"
 	}]
 }]
