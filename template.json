@@ -53,7 +53,7 @@
 		"name": "Simulated volume depth",
 		"type": "range",
 		"default": "1",
-		"values": [1, 10],
+		"values": [1, 1.5],
 		"scale": "linear",
 		"mandatory": "true"
 	}, {
@@ -68,7 +68,7 @@
 		"name": "Thickness",
 		"type": "range",
 		"default": "1",
-		"values": [0.5, 1.5],
+		"values": [1, 1.5],
 		"scale": "linear",
 		"mandatory": "true"
 	}, {
@@ -142,6 +142,12 @@
 		"hyperparopt": "true"
 	}],
 	"plant": [{
+		"name": "Position",
+		"type": "text",
+		"default": "(0, 0)",
+		"mandatory": "true"
+
+	}, {
 		"name": "Canopy radius",
 		"type": "range",
 		"default": "1",
@@ -184,5 +190,12 @@
 		"scale": "linear",
 		"mandatory": "false",
 		"hyperparopt": "true"
+	}],
+	"Dripper": [{
+		"name": "Position",
+		"type": "text",
+		"default": "(0, 0)",
+		"mandatory": "true"
+
 	}]
 }]
