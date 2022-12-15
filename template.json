@@ -1,5 +1,5 @@
 [{
-	"field": [{
+	"Field": [{
 		"name": "Location latitude",
 		"type": "text",
 		"default": "",
@@ -16,150 +16,166 @@
 		"mandatory": "true"
 	},  {
 		"name": "Horizontal field slope",
-		"type": "text",
-		"default": "",
+		"url": "https://en.wikipedia.org/wiki/Slope",
+		"type": "range",
+		"default": 0,
+		"values": [-10, 10],
+		"scale": "linear",
 		"mandatory": "true"
 	}, {
 		"name": "Vertical field slope",
-		"type": "text",
-		"default": "",
+		"url": "https://en.wikipedia.org/wiki/Slope",
+		"type": "range",
+		"default": 0,
+		"values": [-10, 10],
+		"scale": "linear",
 		"mandatory": "true"
 	},  {
 		"name": "Mound slope",
-		"type": "text",
-		"default": "",
+		"url": "https://en.wikipedia.org/wiki/Slope",
+		"type": "range",
+		"default": 0,
+		"values": [-10, 10],
+		"scale": "linear",
 		"mandatory": "true"
 	}, {
-		"name": "Mound width",
-		"type": "text",
-		"default": "",
+		"name": "Mound width (m)",
+		"type": "range",
+		"default": 1,
+		"values": [0, 2],
+		"scale": "linear",
 		"mandatory": "true"
 	}],
-	"model": [{
-		"name": "Simulated volume length",
+	"Model": [{
+		"name": "Simulated volume length (m)",
 		"type": "range",
-		"default": "1",
+		"default": 1,
 		"values": [1, 10],
 		"scale": "linear",
 		"mandatory": "true"
 	}, {
-		"name": "Simulated volume width",
+		"name": "Simulated volume width (m)",
 		"type": "range",
-		"default": "1",
+		"default": 1,
 		"values": [1, 10],
 		"scale": "linear",
 		"mandatory": "true"
 	}, {
-		"name": "Simulated volume depth",
+		"name": "Simulated volume depth (m)",
 		"type": "range",
-		"default": "1",
+		"default": 1,
 		"values": [1, 1.5],
 		"scale": "linear",
 		"mandatory": "true"
 	}, {
 		"name": "Horizontal/vertical water conductivity ratio",
+		"url": "https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/WR017i003p00565",
 		"type": "range",
-		"default": "1",
+		"default": 1,
 		"values": [0, 1],
 		"scale": "linear",
 		"mandatory": "true"
 	}],
-	"soil": [{
-		"name": "Thickness",
+	"Soil": [{
+		"name": "Thickness (m)",
 		"type": "range",
-		"default": "1",
+		"default": 1,
 		"values": [1, 1.5],
 		"scale": "linear",
 		"mandatory": "true"
 	}, {
 		"name": "Sand percentage",
 		"type": "range",
-		"default": "30",
+		"default": 30,
 		"values": [0, 100],
 		"scale": "linear",
 		"mandatory": "true"
 	}, {
 		"name": "Silt percentage",
 		"type": "range",
-		"default": "30",
+		"default": 30,
 		"values": [0, 100],
 		"scale": "linear",
 		"mandatory": "true"
 	}, {
 		"name": "Clay percentage",
 		"type": "range",
-		"default": "40",
+		"default": 40,
 		"values": [0, 100],
 		"scale": "linear",
 		"mandatory": "true"
 	}, {
 		"name": "Saturated hydraulic conductivity (K_sat)",
+		"url": "https://casoilresource.lawr.ucdavis.edu/gmap/help/defn-ksat.html#:~:text=%22Saturated%20hydraulic%20conductivity%22%20is%20the,water%20movement%20through%20porous%20media).",
 		"type": "range",
-		"default": "0.0000006",
+		"default": 0.0000006,
 		"values": [0.0000001, 0.001],
 		"scale": "logarithmic",
 		"mandatory": "false",
 		"hyperparopt": "true"
 	}, {
 		"name": "Saturated hydraulic content (Theta_s)",
+		"url": "https://extension.okstate.edu/fact-sheets/understanding-soil-water-content-and-thresholds-for-irrigation-management.html#:~:text=Saturation%20is%20the%20threshold%20at,60%20percent%20in%20clay%20soils.",
 		"type": "range",
-		"default": "0.5",
+		"default": 0.5,
 		"values": [0.0, 1.0],
 		"scale": "linear",
 		"mandatory": "false",
 		"hyperparopt": "true"
 	}, {
 		"name": "Residual hydraulic content (Theta_r)",
+		"url": "https://www.sciencedirect.com/topics/engineering/residual-water-content",
 		"type": "range",
-		"default": "0.03",
+		"default": 0.03,
 		"values": [0.0, 1.0],
 		"scale": "linear",
 		"mandatory": "false",
 		"hyperparopt": "true"
 	}, {
 		"name": "Van Genuchten inverse air sunction (alpha)",
+		"url": "https://en.wikipedia.org/wiki/Water_retention_curve",
 		"type": "range",
-		"default": "2.2",
+		"default": 2.2,
 		"values": [0.5, 5],
 		"scale": "logarithmic",
 		"mandatory": "false",
 		"hyperparopt": "true"
 	}, {
 		"name": "Van Genuchten pore-size distribution (n)",
+		"url": "https://en.wikipedia.org/wiki/Water_retention_curve",
 		"type": "range",
-		"default": "1.33",
+		"default": 1.33,
 		"values": [1, 2],
 		"scale": "logarithmic",
 		"mandatory": "false",
 		"hyperparopt": "true"
 	}, {
 		"name": "Van Genuchten air mat. pot. (he)",
+		"url": "https://en.wikipedia.org/wiki/Water_retention_curve",
 		"type": "range",
-		"default": "0.23",
+		"default": 0.23,
 		"values": [0, 15],
 		"scale": "logarithmic",
 		"mandatory": "false",
 		"hyperparopt": "true"
 	}],
-	"plant": [{
+	"Plant": [{
 		"name": "Position",
 		"type": "text",
 		"default": "(0, 0)",
 		"mandatory": "true"
-
 	}, {
 		"name": "Canopy radius",
 		"type": "range",
-		"default": "1",
+		"default": 1,
 		"values": [1, 3],
 		"scale": "linear",
 		"mandatory": "false",
 		"hyperparopt": "true"
-
 	}, {
 		"name": "Leaf area Index (LAI)",
 		"type": "range",
-		"default": "4",
+		"default": 4,
 		"values": [0.5, 5],
 		"scale": "linear",
 		"mandatory": "false",
@@ -167,7 +183,7 @@
 	}, {
 		"name": "Root shape",
 		"type": "radiogroup",
-		"default": "0",
+		"default": 0,
 		"values": [
 			"https://media.istockphoto.com/id/817203414/it/vettoriale/insieme-di-radici-degli-alberi.jpg?s=612x612&w=is&k=20&c=z9osf8fG3NMgrPxu7UVNcPFdoEftG-86gb9X2cbJyxM=",
 			"https://media.istockphoto.com/id/817203414/it/vettoriale/insieme-di-radici-degli-alberi.jpg?s=612x612&w=is&k=20&c=z9osf8fG3NMgrPxu7UVNcPFdoEftG-86gb9X2cbJyxM="
@@ -176,16 +192,18 @@
 		"hyperparopt": "true"
 	}, {
 		"name": "Maximum crop coefficient (Kc_max)",
+		"url": "https://en.wikipedia.org/wiki/Crop_coefficient",
 		"type": "range",
-		"default": "1.65",
+		"default": 1.65,
 		"values": [0.5, 3],
 		"scale": "linear",
 		"mandatory": "false",
 		"hyperparopt": "true"
 	}, {
 		"name": "Readily available water fraction (fRAW)",
+		"url": "https://www.dpi.nsw.gov.au/__data/assets/pdf_file/0003/531957/determining-readily-available-water-for-im.pdf",
 		"type": "range",
-		"default": "0.5",
+		"default": 0.5,
 		"values": [0, 1],
 		"scale": "linear",
 		"mandatory": "false",
@@ -196,6 +214,5 @@
 		"type": "text",
 		"default": "(0, 0)",
 		"mandatory": "true"
-
 	}]
 }]
