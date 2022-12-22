@@ -1,27 +1,38 @@
 <template>
-  <div v-for="(temp, index) in template" :key="index">
-    <article v-for="(type,title,index) in temp" :key="index">
-      <header>
-        <h4> {{ title }}</h4>
-      </header>
-      <div v-for="(elem, index) in type" :key="index" class="input">
-        <li>
-          <label for="input"> {{ elem.name }} </label>
-          
-          <input v-if='elem.type == "range"' :type="elem.type" :defaultValue="elem.default"  :min="elem.values[0]" :max="elem.values[1]" :scale="elem.scale" :required="elem.mandatory"/>
-          
-          <div v-if='elem.type == "radiogroup"' class="radiogroup">
-            <template v-for="(valore, index) in elem.values" :key="index">
-              <input type="radio" :defaultValue="elem.default" :required="elem.mandatory" name="radiogroup"/>
-              <img :src="valore">
+  <form>  
+    <div v-for="(temp, index) in template" :key="index">
+      <article v-for="(type,title,index) in temp" :key="index">
+        <header>
+          <h4> {{ title }}</h4>
+        </header>
+        <div v-for="(elem, index) in type" :key="index" class="input">
+          <li>
+            <label for="input"> {{ elem.name }} </label>
+            
+            <input v-if='elem.type == "text"' :type="elem.type" :value="elem.default" required/>
+
+            <template v-if='elem.type == "range"'>
+              <form oninput="range1value.value = range1.valueAsNumber">
+                <input name="range1" :type="elem.type" :value="elem.default"  :min="elem.values[0]" :max="elem.values[1]" onInput="document.getElementById('rangeVal').innerHTML = this.value" :scale="elem.scale"/>
+                <output name="range1value" for="range1">{{elem.default}}</output>
+              </form>
+              
             </template>
-          </div>
-       
-        </li>
-      </div>
-    </article>
-  </div>
-  <button type="button">RUN SIMULATION</button>
+            
+
+          
+            <div v-if='elem.type == "radiogroup"' class="radiogroup">
+              <template v-for="(valore, index) in elem.values" :key="index">
+                <input type="radio" :defaultValue="elem.default" name="radiogroup"/>
+                <img :src="valore">
+              </template>
+            </div>
+          </li>
+        </div>
+      </article>
+    </div>
+    <button>Submit</button>
+  </form>
 </template>
 <script>
 
