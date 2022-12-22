@@ -1,4 +1,7 @@
 <template>
+  <header>
+    <h1>PREPARING THE SIMULATOR</h1>
+  </header>
   <form>  
     <div v-for="(temp, index) in template" :key="index">
       <article v-for="(type,title,index) in temp" :key="index">
@@ -7,26 +10,57 @@
         </header>
         <div v-for="(elem, index) in type" :key="index" class="input">
           <li>
-            <label for="input"> {{ elem.name }} </label>
-            
-            <input v-if='elem.type == "text"' :type="elem.type" :value="elem.default" required/>
-
-            <template v-if='elem.type == "range"'>
-              <form oninput="range1value.value = range1.valueAsNumber">
-                <input name="range1" :type="elem.type" :value="elem.default"  :min="elem.values[0]" :max="elem.values[1]" onInput="document.getElementById('rangeVal').innerHTML = this.value" :scale="elem.scale"/>
-                <output name="range1value" for="range1">{{elem.default}}</output>
-              </form>
-              
+            <!-- if url != null -->
+            <template v-if="elem.url">
+              <a :href="elem.url" target="_blank">{{elem.name}}</a>
+            </template>
+            <!-- else if url == null -->
+            <template v-else>
+              <label for="input"> {{ elem.name }} </label>
             </template>
             
+            <!-- if mandatory -->
+            <template v-if="elem.mandatory==='true'">
+              <!-- if input type text -->
+              <input v-if='elem.type == "text"' :type="elem.type" :value="elem.default" required/>
 
-          
-            <div v-if='elem.type == "radiogroup"' class="radiogroup">
-              <template v-for="(valore, index) in elem.values" :key="index">
-                <input type="radio" :defaultValue="elem.default" name="radiogroup"/>
-                <img :src="valore">
+              <!-- if input type range -->
+              <template v-if='elem.type == "range"'>
+                <label for="input" class="min">{{ elem.values[0] }}</label>
+                <input name="range1" :type="elem.type" :value="elem.default"  :min="elem.values[0]" :max="elem.values[1]" onInput="document.getElementById('rangeVal').innerHTML = this.value" :scale="elem.scale" required/>
+                <label for="input" class="max">{{ elem.values[1] }}</label>              
               </template>
-            </div>
+
+              <!-- if input type radio -->
+              <div v-if='elem.type == "radiogroup"' class="radiogroup">
+                <template v-for="(valore, index) in elem.values" :key="index">
+                  <input type="radio" :defaultValue="elem.default" name="radiogroup" required/>
+                  <img :src="valore">
+                </template>
+              </div>
+            </template>
+
+            <!-- else if mandatory == false -->
+            <template v-else>
+              <!-- if input type text -->
+              <input v-if='elem.type == "text"' :type="elem.type" :value="elem.default"/>
+
+              <!-- if input type range -->
+              <template v-if='elem.type == "range"'>
+                <label for="input" class="min">{{ elem.values[0] }}</label>
+                <input name="range1" :type="elem.type" :value="elem.default"  :min="elem.values[0]" :max="elem.values[1]" onInput="document.getElementById('rangeVal').innerHTML = this.value" :scale="elem.scale"/>
+                <label for="input" class="max">{{ elem.values[1] }}</label>               
+              </template>
+
+              <!-- if input type radio -->
+              <div v-if='elem.type == "radiogroup"' class="radiogroup">
+                <template v-for="(valore, index) in elem.values" :key="index">
+                  <input type="radio" :defaultValue="elem.default" name="radiogroup"/>
+                  <img :src="valore">
+                </template>
+              </div>
+            </template>
+            
           </li>
         </div>
       </article>
@@ -85,7 +119,7 @@ div.input{
     border-radius: 10px;
 }
 
-label {
+label, a {
     margin-top: 15px;
     margin-right: 50px;
 }
@@ -94,11 +128,15 @@ input{
   margin-top: 15px;
 }
 
-
 img {
     width: 100px;
     height: 100px;
     margin-right: 10px;
+}
+
+.min, .max {
+  margin-top: 0px;
+    margin-right: 0px;
 }
 
 </style>
