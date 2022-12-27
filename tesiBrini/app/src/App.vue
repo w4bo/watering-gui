@@ -9,6 +9,7 @@
           <h4> {{ title }}</h4>
         </header>
         <div v-for="(elem, index) in type" :key="index" class="input">
+          
           <li>
             <!-- if url != null -->
             <template v-if="elem.url">
@@ -43,24 +44,29 @@
             <!-- else if mandatory == false -->
             <template v-else>
               <!-- if input type text -->
-              <input v-if='elem.type == "text"' :type="elem.type" :value="elem.default"/>
+              <input v-if='elem.type == "text"' :name="elem.name" :type="elem.type" :value="elem.default" />
 
               <!-- if input type range -->
               <template v-if='elem.type == "range"'>
                 <label for="input" class="min">{{ elem.values[0] }}</label>
-                <input name="range1" :type="elem.type" :value="elem.default"  :min="elem.values[0]" :max="elem.values[1]" onInput="document.getElementById('rangeVal').innerHTML = this.value" :scale="elem.scale"/>
+                <input :name="elem.name" :type="elem.type" :value="elem.default"  :min="elem.values[0]" :max="elem.values[1]" onInput="document.getElementById('rangeVal').innerHTML = this.value" :scale="elem.scale"/>
                 <label for="input" class="max">{{ elem.values[1] }}</label>               
               </template>
 
               <!-- if input type radio -->
               <div v-if='elem.type == "radiogroup"' class="radiogroup">
                 <template v-for="(valore, index) in elem.values" :key="index">
-                  <input type="radio" :defaultValue="elem.default" name="radiogroup"/>
+                  <input :name="elem.name" type="radio" :defaultValue="elem.default"/>
                   <img :src="valore">
                 </template>
               </div>
             </template>
             
+            <!-- if elem.hyperparopt = true -->
+            <template v-if="elem.hyperparopt">
+              <input type="checkbox" :id="elem.name" @click="handleClick(elem.name)"/>
+            </template>
+
           </li>
         </div>
       </article>
@@ -77,6 +83,21 @@ export default {
         return {
             template
         };
+    }, 
+    methods: {
+      handleClick(elem){
+        let checkbox = document.getElementById(elem);
+        let input = document.getElementsByName(elem);
+        if(checkbox.checked == true){
+          input.forEach(element => {
+            element.disabled = true;
+          });
+        } else {
+          input.forEach(element => {
+              element.disabled = false;
+          });
+        }
+      }
     }
 }
 </script>
