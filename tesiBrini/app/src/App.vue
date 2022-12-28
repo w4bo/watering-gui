@@ -2,14 +2,13 @@
   <header>
     <h1>PREPARING THE SIMULATOR</h1>
   </header>
-  <form>  
+  <form> 
     <div v-for="(temp, index) in template" :key="index">
       <article v-for="(type,title,index) in temp" :key="index">
         <header>
           <h4> {{ title }}</h4>
         </header>
         <div v-for="(elem, index) in type" :key="index" class="input">
-          
           <li>
             <!-- if url != null -->
             <template v-if="elem.url">
@@ -23,19 +22,21 @@
             <!-- if mandatory -->
             <template v-if="elem.mandatory==='true'">
               <!-- if input type text -->
-              <input v-if='elem.type == "text"' :type="elem.type" :value="elem.default" required/>
+              <input v-if='elem.type == "text"' :id="elem.name" :type="elem.type" :value="elem.default" required/>
 
               <!-- if input type range -->
               <template v-if='elem.type == "range"'>
                 <label for="input" class="min">{{ elem.values[0] }}</label>
-                <input name="range1" :type="elem.type" :value="elem.default"  :min="elem.values[0]" :max="elem.values[1]" onInput="document.getElementById('rangeVal').innerHTML = this.value" :scale="elem.scale" required/>
-                <label for="input" class="max">{{ elem.values[1] }}</label>              
+                <input :id="elem.name" name="range1" :type="elem.type" :value="elem.default"  :min="elem.values[0]" :max="elem.values[1]" :scale="elem.scale" @change="updateValue(elem.name)" required/>
+                <label for="input" class="max">{{ elem.values[1] }}</label>
+                
+                <label :id="'label' + elem.name" class="current">CURRENT VALUE: {{ elem.default }}</label>
               </template>
 
               <!-- if input type radio -->
               <div v-if='elem.type == "radiogroup"' class="radiogroup">
                 <template v-for="(valore, index) in elem.values" :key="index">
-                  <input type="radio" :defaultValue="elem.default" name="radiogroup" required/>
+                  <input type="radio" :id="elem.name" :defaultValue="elem.default" name="radiogroup" required/>
                   <img :src="valore">
                 </template>
               </div>
@@ -44,19 +45,22 @@
             <!-- else if mandatory == false -->
             <template v-else>
               <!-- if input type text -->
-              <input v-if='elem.type == "text"' :name="elem.name" :type="elem.type" :value="elem.default" />
+              <input v-if='elem.type == "text"' :id="elem.name" :name="elem.name" :type="elem.type" :value="elem.default" />
 
               <!-- if input type range -->
-              <template v-if='elem.type == "range"'>
+              <template v-if='elem.type == "range"'>  
                 <label for="input" class="min">{{ elem.values[0] }}</label>
-                <input :name="elem.name" :type="elem.type" :value="elem.default"  :min="elem.values[0]" :max="elem.values[1]" onInput="document.getElementById('rangeVal').innerHTML = this.value" :scale="elem.scale"/>
-                <label for="input" class="max">{{ elem.values[1] }}</label>               
+                <input :id="elem.name" :type="elem.type" :name="elem.name" :value="elem.default" :min="elem.values[0]" :max="elem.values[1]" @change="updateValue(elem.name)" />
+                <label for="input" class="max">{{ elem.values[1] }}</label>
+
+                <label :id="'label' + elem.name" class="current">CURRENT VALUE: {{ elem.default }}</label>
+                
               </template>
 
               <!-- if input type radio -->
               <div v-if='elem.type == "radiogroup"' class="radiogroup">
                 <template v-for="(valore, index) in elem.values" :key="index">
-                  <input :name="elem.name" type="radio" :defaultValue="elem.default"/>
+                  <input :id="elem.name" :name="elem.name" type="radio" :defaultValue="elem.default"/>
                   <img :src="valore">
                 </template>
               </div>
@@ -64,7 +68,8 @@
             
             <!-- if elem.hyperparopt = true -->
             <template v-if="elem.hyperparopt">
-              <input type="checkbox" :id="elem.name" @click="handleClick(elem.name)"/>
+              <br>
+              <input type="checkbox" :id="'checkbox' + elem.name" @click="check(elem.name)"/>
             </template>
 
           </li>
@@ -85,8 +90,8 @@ export default {
         };
     }, 
     methods: {
-      handleClick(elem){
-        let checkbox = document.getElementById(elem);
+      check:function(elem){
+        let checkbox = document.getElementById("checkbox" + elem);
         let input = document.getElementsByName(elem);
         if(checkbox.checked == true){
           input.forEach(element => {
@@ -97,7 +102,15 @@ export default {
               element.disabled = false;
           });
         }
+      },
+
+      updateValue:function(elem){
+        let label = document.getElementById("label" + elem);
+        let input = document.getElementById(elem);
+        label.innerHTML = "CURRENT VALUE: " + input.value;
       }
+      
+
     }
 }
 </script>
@@ -116,7 +129,7 @@ article {
   margin-top: 10px;
   min-height: 200px;
   border-style: solid;
-  background-color: #4949f9;
+  background-color: #007FFF;
   border-radius: 15px;
 }
 
@@ -157,7 +170,11 @@ img {
 
 .min, .max {
   margin-top: 0px;
-    margin-right: 0px;
+  margin-right: 0px;
+}
+
+.current{
+  margin-left: 15px;
 }
 
 </style>
