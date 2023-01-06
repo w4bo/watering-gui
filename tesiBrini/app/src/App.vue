@@ -68,7 +68,7 @@
             
             <!-- if elem.hyperparopt = true -->
             <template v-if="elem.hyperparopt">
-              <br>
+
               <input type="checkbox" :id="'checkbox' + elem.name" @click="check(elem.name)"/>
             </template>
 
