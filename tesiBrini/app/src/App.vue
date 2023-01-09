@@ -10,6 +10,7 @@
         </header>
         <div v-for="(elem, index) in type" :key="index" class="input">
           <li>
+            
             <!-- if url != null -->
             <template v-if="elem.url">
               <a :href="elem.url" target="_blank">{{elem.name}}</a>
@@ -27,7 +28,7 @@
               <!-- if input type range -->
               <template v-if='elem.type == "range"'>
                 <label for="input" class="min">{{ elem.values[0] }}</label>
-                <input :id="elem.name" name="range1" :type="elem.type" :value="elem.default"  :min="elem.values[0]" :max="elem.values[1]" :scale="elem.scale" @change="updateValue(elem.name)" required/>
+                <input :id="elem.name" :name="elem.name" :type="elem.type" :value="elem.default"  :min="elem.values[0]" :max="elem.values[1]" :scale="elem.scale" @change="updateValue(elem.name)" required/>
                 <label for="input" class="max">{{ elem.values[1] }}</label>
                 
                 <label :id="'label' + elem.name" class="current">CURRENT VALUE: {{ elem.default }}</label>
