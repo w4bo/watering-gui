@@ -69,7 +69,6 @@
             
             <!-- if elem.hyperparopt = true -->
             <template v-if="elem.hyperparopt">
-
               <input type="checkbox" :id="'checkbox' + elem.name" @click="check(elem.name)"/>
             </template>
 
@@ -93,15 +92,11 @@ export default {
     methods: {
       check:function(elem){
         let checkbox = document.getElementById("checkbox" + elem);
-        let input = document.getElementsByName(elem);
+        let input = document.getElementById(elem);
         if(checkbox.checked == true){
-          input.forEach(element => {
-            element.disabled = true;
-          });
+          input.disabled = true;
         } else {
-          input.forEach(element => {
-              element.disabled = false;
-          });
+          input.disabled = false;
         }
       },
 
