@@ -155,7 +155,7 @@ export default {
 				"url": "https://en.wikipedia.org/wiki/Water_retention_curve",
 				"type": "range",
 				"default": 0.23,
-				"values": [0, 15],
+				"values": [0.001, 15],
 				"scale": "logarithmic",
 				"mandatory": "false",
 				"hyperparopt": "true"
