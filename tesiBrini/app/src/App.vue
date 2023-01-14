@@ -13,11 +13,11 @@
             
             <!-- if url != null -->
             <template v-if="elem.url">
-              <a :href="elem.url" target="_blank">{{elem.name}}</a>
+              <a :href="elem.url" target="_blank" class="title">{{elem.name}}</a>
             </template>
             <!-- else if url == null -->
             <template v-else>
-              <label for="input"> {{ elem.name }} </label>
+              <label for="input" class="title"> {{ elem.name }} </label>
             </template>
             
             <!-- if mandatory -->
@@ -70,6 +70,7 @@
             <!-- if elem.hyperparopt = true -->
             <template v-if="elem.hyperparopt">
               <input type="checkbox" :id="'checkbox' + elem.name" @click="check(elem.name)"/>
+              <label :for="'checkbox' + elem.name" class="hyper">Enable hyper-parameter opt</label>
             </template>
 
           </li>
@@ -92,12 +93,15 @@ export default {
     methods: {
       check:function(elem){
         let checkbox = document.getElementById("checkbox" + elem);
-        let input = document.getElementById(elem);
-        if(checkbox.checked == true){
-          input.disabled = true;
-        } else {
-          input.disabled = false;
+        let input = document.getElementsByName(elem);
+        for(let i = 0; i < input.length; i++){
+          if(checkbox.checked == true){
+            input[i].disabled = true;
+          } else {
+            input[i].disabled = false;
+          }
         }
+        
       },
 
       updateValue:function(elem){
@@ -116,17 +120,22 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
+  text-align: center;
   margin-top: 60px;
+}
+
+h1 {
+  text-align: center;
 }
 
 article {
   margin-top: 10px;
-  min-height: 200px;
+  min-height: 100px;
   border-style: solid;
-  background-color: #007FFF;
+  background-color: #969696;
   border-radius: 15px;
+  text-align: left;
 }
 
 h4 {
@@ -140,18 +149,28 @@ button {
 }
 
 div.input{
-    margin-top: 15px;
-    background-color: orange;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    background-color: white;
     width: 90%;
-    height: auto;
-    padding-bottom: 2%;
-    margin-left: 5%;
+    min-height: 5px;
+    padding-bottom: 0px;
+    margin-left: 2%;
     border-radius: 10px;
 }
 
-label, a {
+label {
     margin-top: 15px;
     margin-right: 50px;
+}
+
+.title {
+  margin-left: 10px;
+}
+
+a {
+  margin-top: 15px;
+  margin-right: 50px;
 }
 
 input{
@@ -164,9 +183,18 @@ img {
     margin-right: 10px;
 }
 
+li {
+  margin-left: 10px;
+  min-height: 50px;
+}
+
 .min, .max {
   margin-top: 0px;
   margin-right: 0px;
+}
+
+.radiogroup {
+  display: inline-block;
 }
 
 .current{
