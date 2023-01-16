@@ -28,7 +28,7 @@
               <!-- if input type range -->
               <template v-if='elem.type == "range"'>
                 <label for="input" class="min">{{ elem.values[0] }}</label>
-                <input :id="elem.name" :name="elem.name" :type="elem.type" :value="elem.default"  :min="elem.values[0]" :max="elem.values[1]" :scale="elem.scale" @change="updateValue(elem.name)" required/>
+                <input :id="elem.name" :name="elem.name" :type="elem.type" :value="elem.default"  :min="elem.values[0]" :max="elem.values[1]" @change="updateValue(elem.name)" :step="(elem.values[1] - elem.values[0])/100" required/>
                 <label for="input" class="max">{{ elem.values[1] }}</label>
                 
                 <label :id="'label' + elem.name" class="current">CURRENT VALUE: {{ elem.default }}</label>
@@ -51,7 +51,7 @@
               <!-- if input type range -->
               <template v-if='elem.type == "range"'>  
                 <label for="input" class="min">{{ elem.values[0] }}</label>
-                <input :id="elem.name" :type="elem.type" :name="elem.name" :value="elem.default" :min="elem.values[0]" :max="elem.values[1]" @change="updateValue(elem.name)" />
+                <input :id="elem.name" :type="elem.type" :name="elem.name" :value="elem.default" :min="elem.values[0]" :max="elem.values[1]" :step="(elem.values[1] - elem.values[0])/100" @change="updateValue(elem.name)" />
                 <label for="input" class="max">{{ elem.values[1] }}</label>
 
                 <label :id="'label' + elem.name" class="current">CURRENT VALUE: {{ elem.default }}</label>
