@@ -3,14 +3,66 @@
     <h1>PREPARING THE SIMULATOR</h1>
   </header>
   <form> 
+
+    <article class="inputMission">
+      <div class="input">
+        <label for="input">Name mission: </label>
+        <input type="text" id="input" name="input"/>
+        <br>
+        <label for="hum">Air Humidity:</label>
+        <select name="hum" id="hum">
+          <option value="humidity.csv">precipitation1.csv</option>
+          <option value="humidity2.csv">precipitation2.csv</option>
+        </select>
+        <br>
+        <label for="temp">Air Temperature:</label>
+        <select name="temp" id="temp">
+          <option value="temperature.csv">temperature1.csv</option>
+          <option value="temperature2.csv">temperature2.csv</option>
+        </select>
+        <br>
+        <label for="rad">Solar radiation:</label>
+        <select name="rad" id="rad">
+          <option value="solar_radiation.csv">solar_radiation.csv</option>
+          <option value="solar_radiation2.csv">solar_radiation2.csv</option>
+        </select>
+        <br>
+        <label for="wind">wind speed:</label>
+        <select name="wind" id="wind">
+          <option value="wind_speed.csv">wind_speed.csv</option>
+          <option value="wind_speed2.csv">wind_speed2.csv</option>
+        </select>
+        <br>
+        <label for="pot">water Potential:</label>
+        <select name="pot" id="pot">
+          <option value="waterPotential.csv">waterPotential.csv</option>
+          <option value="waterPotential2.csv">waterPotential2.csv</option>
+        </select>
+        <br>
+        <label for="irri">irrigation:</label>
+        <select name="irri" id="irri">
+          <option value="irrigation.csv">irrigation.csv</option>
+          <option value="irrigation.csv">irrigation2.csv</option>
+        </select>
+        <br>
+        <label for="prec">Precipitazioni:</label>
+        <select name="prec" id="prec">
+          <option value="precipitation.csv">precipitation1.csv</option>
+          <option value="precipitation2.csv">precipitation2.csv</option>
+        </select>
+        <br><br>
+      </div>
+      
+    </article>
+
     <div v-for="(temp, index) in template" :key="index">
       <article v-for="(type,title,index) in temp" :key="index">
         <header>
           <h4> {{ title }}</h4>
         </header>
+
         <div v-for="(elem, index) in type" :key="index" class="input">
           <li>
-            
             <!-- if url != null -->
             <template v-if="elem.url">
               <a :href="elem.url" target="_blank" class="title">{{elem.name}}</a>
@@ -69,15 +121,16 @@
             
             <!-- if elem.hyperparopt = true -->
             <template v-if="elem.hyperparopt">
-              <input type="checkbox" :id="'checkbox' + elem.name" @click="check(elem.name)"/>
               <label :for="'checkbox' + elem.name" class="hyper">Enable hyper-parameter opt</label>
+              <input type="checkbox" :id="'checkbox' + elem.name" @click="check(elem.name)"/>
+              
             </template>
 
           </li>
         </div>
       </article>
     </div>
-    <button>Submit</button>
+    <input type="submit" value="Submit">
   </form>
 </template>
 <script>
@@ -200,5 +253,16 @@ li {
 .current{
   margin-left: 15px;
 }
+
+.hyper{
+  margin-right: 5px;
+}
+
+.inputMission > div > label {
+  display: inline-block;
+  margin-left: 5px;
+  min-width: 120px;
+}
+
 
 </style>
