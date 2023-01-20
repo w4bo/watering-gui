@@ -10,8 +10,8 @@
         <br>
         <label for="hum">Air Humidity:</label>
         <select name="hum" id="hum">
-          <option value="humidity.csv">precipitation1.csv</option>
-          <option value="humidity2.csv">precipitation2.csv</option>
+          <option value="humidity.csv">humidity1.csv</option>
+          <option value="humidity2.csv">humidity2.csv</option>
         </select>
         <br>
         <label for="temp">Air Temperature:</label>
