@@ -126,6 +126,7 @@
 
           </li>
         </div>
+        <button :onclick="getValue()">SPEREM</button>
       </article>
     </div>
     <input type="submit" value="Submit">
@@ -161,7 +162,20 @@ export default {
         let input = document.getElementById(elem);
         label.innerHTML = "CURRENT VALUE: " + input.value;
       },
-      
+
+      getValue:function(){
+        const Http = new XMLHttpRequest();
+        const url='input/air_humidity/air_humidity1.csv';
+        Http.open("GET", url);
+        Http.send();
+
+        Http.onreadystatechange = function(){
+          if(this.readyState == 4 && this.status==200){
+            const stringa = Http.responseText[10] + Http.responseText[11] + Http.responseText[12] + Http.responseText[13] + Http.responseText[14] + Http.responseText[15] + Http.responseText[16] + Http.responseText[17] + Http.responseText[18] + Http.responseText[19] + Http.responseText[20] + Http.responseText[21] + Http.responseText[22] 
+            console.log(stringa)
+          }
+        }
+      }
     }
 }
 </script>
