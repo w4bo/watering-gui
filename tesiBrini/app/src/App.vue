@@ -3,10 +3,9 @@
     <h1>PREPARING THE SIMULATOR</h1>
   </header>
   <form> 
-
     <article class="inputMission">
       <div class="input">
-        <label for="input">Name mission: </label>
+        <label for="input">Mission Name: </label>
         <input type="text" id="input" name="input"/>
         <br>
         <label for="hum">Air Humidity:</label>
@@ -21,25 +20,25 @@
           <option value="temperature2.csv">temperature2.csv</option>
         </select>
         <br>
-        <label for="rad">Solar radiation:</label>
+        <label for="rad">Solar Radiation:</label>
         <select name="rad" id="rad">
           <option value="solar_radiation.csv">solar_radiation.csv</option>
           <option value="solar_radiation2.csv">solar_radiation2.csv</option>
         </select>
         <br>
-        <label for="wind">wind speed:</label>
+        <label for="wind">Wind Speed:</label>
         <select name="wind" id="wind">
           <option value="wind_speed.csv">wind_speed.csv</option>
           <option value="wind_speed2.csv">wind_speed2.csv</option>
         </select>
         <br>
-        <label for="pot">water Potential:</label>
+        <label for="pot">Water Potential:</label>
         <select name="pot" id="pot">
           <option value="waterPotential.csv">waterPotential.csv</option>
           <option value="waterPotential2.csv">waterPotential2.csv</option>
         </select>
         <br>
-        <label for="irri">irrigation:</label>
+        <label for="irri">Irrigation:</label>
         <select name="irri" id="irri">
           <option value="irrigation.csv">irrigation.csv</option>
           <option value="irrigation.csv">irrigation2.csv</option>
@@ -56,7 +55,7 @@
     </article>
 
     <div v-for="(temp, index) in template" :key="index">
-      <article v-for="(type,title,index) in temp" :key="index">
+      <article v-for="(type,title,index) in temp" :key="index" :class="title">
         <header>
           <h4> {{ title }}</h4>
         </header>
@@ -120,10 +119,9 @@
             </template>
             
             <!-- if elem.hyperparopt = true -->
-            <template v-if="elem.hyperparopt">
+            <template v-if="elem.hyperparopt">    
               <label :for="'checkbox' + elem.name" class="hyper">Enable hyper-parameter opt</label>
-              <input type="checkbox" :id="'checkbox' + elem.name" @click="check(elem.name)"/>
-              
+              <input type="checkbox" :id="'checkbox' + elem.name" @click="check(elem.name)"/>                           
             </template>
 
           </li>
@@ -133,6 +131,7 @@
     <input type="submit" value="Submit">
   </form>
 </template>
+
 <script>
 
 import template from './template.js';
@@ -161,9 +160,8 @@ export default {
         let label = document.getElementById("label" + elem);
         let input = document.getElementById(elem);
         label.innerHTML = "CURRENT VALUE: " + input.value;
-      }
+      },
       
-
     }
 }
 </script>
@@ -202,19 +200,42 @@ button {
 }
 
 div.input{
-    margin-top: 5px;
-    margin-bottom: 5px;
-    background-color: white;
-    width: 90%;
-    min-height: 5px;
-    padding-bottom: 0px;
-    margin-left: 2%;
-    border-radius: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  background-color: white;
+  width: 90%;
+  min-height: 5px;
+  padding-bottom: 0px;
+  margin-left: 2%;
+  border-radius: 10px;
 }
 
-label {
-    margin-top: 15px;
-    margin-right: 50px;
+label, a {
+  display: inline-block;
+  margin-top: 15px;
+  margin-right: 50px;
+  min-width: 150px;
+}
+
+ .Soil a {
+  display: inline-block;
+  margin-top: 15px;
+  margin-right: 50px;
+  min-width: 307px;
+}
+
+.min {
+  text-align: end;
+  margin-top: 15px;
+  margin-right: 5px;
+  min-width: 30px;
+}
+
+.max {
+  text-align: left;
+  margin-top: 15px;
+  margin-right: 5px;
+  min-width: 30px;
 }
 
 .title {
