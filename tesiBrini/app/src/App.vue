@@ -6,7 +6,7 @@
     <article class="inputMission">
       <div class="input">
         <label for="input">Mission Name: </label>
-        <input type="text" id="input" name="input"/>
+        <input type="text" id="input" name="input" required/>
         <br>
         <label for="hum">Air Humidity:</label>
         <select name="hum" id="hum">
