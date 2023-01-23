@@ -1,55 +1,22 @@
 <template>
   <header>
     <h1>PREPARING THE SIMULATOR</h1>
-  </header>
+  </header>  
+  <button :onclick="getFolder()">PROVA</button>
   <form> 
     <article class="inputMission">
       <div class="input">
         <label for="input">Mission Name: </label>
         <input type="text" id="input" name="input" required/>
         <br>
-        <label for="hum">Air Humidity:</label>
-        <select name="hum" id="hum">
-          <option value="humidity.csv">humidity1.csv</option>
-          <option value="humidity2.csv">humidity2.csv</option>
-        </select>
+        <template v-for="fold in getFolder()" :key="fold">
+          <label :for="fold">{{ fold }}</label>
+          <select :name="fold" id="fold">
+            <option v-for="file in getFiles(fold)" :key="file">{{ file }}</option>
+          </select>
+          <br>
+        </template>
         <br>
-        <label for="temp">Air Temperature:</label>
-        <select name="temp" id="temp">
-          <option value="temperature.csv">temperature1.csv</option>
-          <option value="temperature2.csv">temperature2.csv</option>
-        </select>
-        <br>
-        <label for="rad">Solar Radiation:</label>
-        <select name="rad" id="rad">
-          <option value="solar_radiation.csv">solar_radiation.csv</option>
-          <option value="solar_radiation2.csv">solar_radiation2.csv</option>
-        </select>
-        <br>
-        <label for="wind">Wind Speed:</label>
-        <select name="wind" id="wind">
-          <option value="wind_speed.csv">wind_speed.csv</option>
-          <option value="wind_speed2.csv">wind_speed2.csv</option>
-        </select>
-        <br>
-        <label for="pot">Water Potential:</label>
-        <select name="pot" id="pot">
-          <option value="waterPotential.csv">waterPotential.csv</option>
-          <option value="waterPotential2.csv">waterPotential2.csv</option>
-        </select>
-        <br>
-        <label for="irri">Irrigation:</label>
-        <select name="irri" id="irri">
-          <option value="irrigation.csv">irrigation.csv</option>
-          <option value="irrigation.csv">irrigation2.csv</option>
-        </select>
-        <br>
-        <label for="prec">Precipitazioni:</label>
-        <select name="prec" id="prec">
-          <option value="precipitation.csv">precipitation1.csv</option>
-          <option value="precipitation2.csv">precipitation2.csv</option>
-        </select>
-        <br><br>
       </div>
       
     </article>
@@ -126,7 +93,6 @@
 
           </li>
         </div>
-        <button :onclick="getValue()">SPEREM</button>
       </article>
     </div>
     <input type="submit" value="Submit">
@@ -163,18 +129,28 @@ export default {
         label.innerHTML = "CURRENT VALUE: " + input.value;
       },
 
-      getValue:function(){
-        const Http = new XMLHttpRequest();
-        const url='input/air_humidity/air_humidity1.csv';
-        Http.open("GET", url);
-        Http.send();
-
-        Http.onreadystatechange = function(){
-          if(this.readyState == 4 && this.status==200){
-            const stringa = Http.responseText[10] + Http.responseText[11] + Http.responseText[12] + Http.responseText[13] + Http.responseText[14] + Http.responseText[15] + Http.responseText[16] + Http.responseText[17] + Http.responseText[18] + Http.responseText[19] + Http.responseText[20] + Http.responseText[21] + Http.responseText[22] 
-            console.log(stringa)
+      getFolder:function(){
+        let folder = new Array();
+        const a1 = require.context('../public/input/', true)
+        a1.keys().forEach(element => {
+          let array = element.split("/");
+          if(!folder.includes(array[1])){
+            folder.push(array[1])
           }
-        }
+        })
+        return folder
+      },
+
+      getFiles:function(fold){
+        let files = new Array();
+        const a2 = require.context('../public/input/', true)
+        a2.keys().forEach(element => {
+          let array = element.split("/")
+          if(array[1] == fold){
+            files.push(array[2]);
+          }
+        })
+        return files
       }
     }
 }
