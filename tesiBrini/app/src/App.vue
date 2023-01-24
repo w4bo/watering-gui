@@ -2,7 +2,7 @@
   <header>
     <h1>PREPARING THE SIMULATOR</h1>
   </header>  
-  <form action="http://10.201.102.159:8080/" method="POST" name="myForm"> 
+  <form action="processa_form.php" method="POST" name="myForm"> 
     <article class="inputMission">
       <!-- div input -->
       <div class="input">
