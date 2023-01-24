@@ -2,12 +2,12 @@
   <header>
     <h1>PREPARING THE SIMULATOR</h1>
   </header>  
-  <button :onclick="getFolder()">PROVA</button>
-  <form> 
+  <form action="http://10.201.102.159:8080/" method="POST" name="myForm"> 
     <article class="inputMission">
+      <!-- div input -->
       <div class="input">
-        <label for="input">Mission Name: </label>
-        <input type="text" id="input" name="input" required/>
+        <label for="nameMission">Mission Name: </label>
+        <input type="text" id="nameMission" name="nameMission" required/>
         <br>
         <template v-for="fold in getFolder()" :key="fold">
           <label :for="fold">{{ fold }}</label>
@@ -41,7 +41,7 @@
             <!-- if mandatory -->
             <template v-if="elem.mandatory==='true'">
               <!-- if input type text -->
-              <input v-if='elem.type == "text"' :id="elem.name" :type="elem.type" :value="elem.default" required/>
+              <input v-if='elem.type == "text"' :id="elem.name" :name="elem.name" :type="elem.type" :value="elem.default" required/>
 
               <!-- if input type range -->
               <template v-if='elem.type == "range"'>
