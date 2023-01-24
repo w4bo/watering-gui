@@ -41,7 +41,7 @@
             <!-- if mandatory -->
             <template v-if="elem.mandatory==='true'">
               <!-- if input type text -->
-              <input v-if='elem.type == "text"' :id="elem.name" :name="elem.name" :type="elem.type" :value="elem.default" required/>
+              <input v-if='elem.type == "text"' :id="[elem.name]" :name="[elem.name]" :type="elem.type" :value="elem.default" required/>
 
               <!-- if input type range -->
               <template v-if='elem.type == "range"'>
