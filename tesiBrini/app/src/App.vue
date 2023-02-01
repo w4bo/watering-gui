@@ -8,10 +8,12 @@
 
     <div v-for="(temp, index) in template" :key="index">
       <article v-for="(type,title,index) in temp" :key="index" :class="title">
+        <details>
+        <summary>
         <header>
           <h4> {{ title }}</h4>
         </header>
-
+        </summary>
         <div v-for="(elem, index) in type" :key="index" class="input">
           <li>
             <!-- if url != null -->
@@ -73,11 +75,12 @@
             <!-- if elem.hyperparopt = true -->
             <template v-if="elem.hyperparopt">    
               <label :for="'checkbox' + elem.name" class="hyper">Enable hyper-parameter opt</label>
-              <input type="checkbox" :id="'checkbox' + elem.name" @click="check(elem.name)"/>                           
+              <input type="checkbox" :id="'checkbox' + elem.name" @click="check(elem.name)"/>                            
             </template>
 
           </li>
         </div>
+      </details>
       </article>
     </div>
     <input type="submit" value="Submit">
@@ -136,7 +139,7 @@ h1 {
 
 article {
   margin-top: 10px;
-  min-height: 100px;
+  min-height: 10px;
   border-style: solid;
   background-color: #969696;
   border-radius: 15px;
@@ -144,9 +147,9 @@ article {
 }
 
 h4 {
-  text-align: left;
+  display: inline-block;
   margin-left: 10px;
-  margin-top: 2px;
+  margin-top: 20px;
 }
 
 button {
@@ -171,7 +174,7 @@ label, a {
   min-width: 150px;
 }
 
- .Soil a {
+.Soil a {
   display: inline-block;
   margin-top: 15px;
   margin-right: 50px;
@@ -239,5 +242,15 @@ li {
   min-width: 120px;
 }
 
+summary {
+  cursor: pointer;
+}
+
+details > summary {
+  list-style: none;
+}
+details > summary::-webkit-details-marker {
+  display: none;
+}
 
 </style>
