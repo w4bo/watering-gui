@@ -2,24 +2,9 @@
   <header>
     <h1>PREPARING THE SIMULATOR</h1>
   </header>  
-  <form action="processa_form.php" method="POST" name="myForm"> 
-    <article class="inputMission">
-      <!-- div input -->
-      <div class="input">
-        <label for="nameMission">Mission Name: </label>
-        <input type="text" id="nameMission" name="nameMission" required/>
-        <br>
-        <template v-for="fold in getFolder()" :key="fold">
-          <label :for="fold">{{ fold }}</label>
-          <select :name="fold" id="fold">
-            <option v-for="file in getFiles(fold)" :key="file">{{ file }}</option>
-          </select>
-          <br>
-        </template>
-        <br>
-      </div>
-      
-    </article>
+  <form method="post" name="myForm"> 
+    
+    <MissionArticle></MissionArticle>
 
     <div v-for="(temp, index) in template" :key="index">
       <article v-for="(type,title,index) in temp" :key="index" :class="title">
@@ -102,57 +87,36 @@
 <script>
 
 import template from './template.js';
+import MissionArticle from './components/MissionArticle.vue';
 
 export default {
-    data() {
+  components: {MissionArticle},
+  
+  data() {
         return {
-            template
+            template,
         };
-    }, 
-    methods: {
-      check:function(elem){
-        let checkbox = document.getElementById("checkbox" + elem);
-        let input = document.getElementsByName(elem);
-        for(let i = 0; i < input.length; i++){
-          if(checkbox.checked == true){
-            input[i].disabled = true;
-          } else {
-            input[i].disabled = false;
-          }
+  }, 
+  methods: {
+    check:function(elem){
+      let checkbox = document.getElementById("checkbox" + elem);
+      let input = document.getElementsByName(elem);
+      for(let i = 0; i < input.length; i++){
+        if(checkbox.checked == true){
+          input[i].disabled = true;
+        } else {
+          input[i].disabled = false;
         }
-        
-      },
-
-      updateValue:function(elem){
-        let label = document.getElementById("label" + elem);
-        let input = document.getElementById(elem);
-        label.innerHTML = "CURRENT VALUE: " + input.value;
-      },
-
-      getFolder:function(){
-        let folder = new Array();
-        const a1 = require.context('../public/input/', true)
-        a1.keys().forEach(element => {
-          let array = element.split("/");
-          if(!folder.includes(array[1])){
-            folder.push(array[1])
-          }
-        })
-        return folder
-      },
-
-      getFiles:function(fold){
-        let files = new Array();
-        const a2 = require.context('../public/input/', true)
-        a2.keys().forEach(element => {
-          let array = element.split("/")
-          if(array[1] == fold){
-            files.push(array[2]);
-          }
-        })
-        return files
       }
-    }
+      
+    },
+
+    updateValue:function(elem){
+      let label = document.getElementById("label" + elem);
+      let input = document.getElementById(elem);
+      label.innerHTML = "CURRENT VALUE: " + input.value;
+    },
+  }
 }
 </script>
 
