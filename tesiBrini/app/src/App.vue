@@ -2,7 +2,7 @@
   <header>
     <h1>PREPARING THE SIMULATOR</h1>
   </header>  
-  <form method="post" name="myForm"> 
+  <form action="http://localhost:8080/submit" method="post" name="myForm"> 
     
     <MissionArticle></MissionArticle>
 
@@ -82,8 +82,9 @@
         </div>
       </details>
       </article>
+      
     </div>
-    <input type="submit" value="Submit">
+    <button type="submit">Run</button>
   </form>
 </template>
 
@@ -91,6 +92,8 @@
 
 import template from './template.js';
 import MissionArticle from './components/MissionArticle.vue';
+
+
 
 export default {
   components: {MissionArticle},
@@ -111,7 +114,6 @@ export default {
           input[i].disabled = false;
         }
       }
-      
     },
 
     updateValue:function(elem){
@@ -120,6 +122,7 @@ export default {
       label.innerHTML = "CURRENT VALUE: " + input.value;
     },
   }
+
 }
 </script>
 
