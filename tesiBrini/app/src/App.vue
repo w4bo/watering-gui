@@ -2,9 +2,24 @@
   <header>
     <h1>PREPARING THE SIMULATOR</h1>
   </header>  
-  <form action="http://localhost:8080/submit" method="post" name="myForm"> 
-    
-    <MissionArticle></MissionArticle>
+  <form action="/submit" method="post" name="myForm"> 
+    <!-- Card input con i file passati in get -->
+    <article class="inputMission">
+      <div class="input">
+        <label for="nameMission">Mission Name: </label>
+        <input type="text" id="nameMission" name="nameMission" required/>
+        <br>
+        <template v-for="fold in getFolder(filenames)" :key="fold">
+          <label :for="fold">{{ fold }}</label>
+          <select :name="fold" id="fold">
+            <option v-for="file in getFiles(fold, filenames)" :key="file">{{ file }}</option>
+          </select>
+          <br>
+        </template>
+        <br>
+      </div>
+      
+    </article>
 
     <div v-for="(temp, index) in template" :key="index">
       <article v-for="(type,title,index) in temp" :key="index" :class="title">
@@ -91,18 +106,22 @@
 <script>
 
 import template from './template.js';
-import MissionArticle from './components/MissionArticle.vue';
-
-
 
 export default {
-  components: {MissionArticle},
-  
   data() {
         return {
-            template,
+            template, 
+            filenames: []
         };
   }, 
+  created(){
+    fetch('/input')
+      .then(response => response.json())
+      .then(files => {
+        this.filenames = files;
+      })
+      .catch(error => console.error(error));
+    },
   methods: {
     check:function(elem){
       let checkbox = document.getElementById("checkbox" + elem);
@@ -121,6 +140,30 @@ export default {
       let input = document.getElementById(elem);
       label.innerHTML = "CURRENT VALUE: " + input.value;
     },
+
+    getFolder:function(filenames){
+      let folder = new Array();
+      filenames.forEach(element => {
+        let array = element.split("\\");
+        let fold = array[0].replace("_", " ");
+        if(!folder.includes(fold)){
+          folder.push(fold)
+        }
+      })
+      return folder
+    },
+
+    getFiles:function(fold, filenames){
+      let files = new Array();
+      filenames.forEach(element => {
+        let array = element.split("\\")
+        let temp = array[0].replace("_", " ");
+        if(temp == fold){
+          files.push(array[1]);
+          }
+        })
+      return files
+      }
   }
 
 }
