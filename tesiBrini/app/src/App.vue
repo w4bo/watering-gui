@@ -43,21 +43,21 @@
             <!-- if mandatory -->
             <template v-if="elem.mandatory==='true'">
               <!-- if input type text -->
-              <input v-if='elem.type == "text"' :id="[elem.name]" :name="[elem.name]" :type="elem.type" :value="elem.default" required/>
+              <input v-if='elem.type == "text"' :id="elem.post" :name="elem.post" :type="elem.type" :value="elem.default" required/>
 
               <!-- if input type range -->
               <template v-if='elem.type == "range"'>
                 <label for="input" class="min">{{ elem.values[0] }}</label>
-                <input :id="elem.name" :name="elem.name" :type="elem.type" :value="elem.default"  :min="elem.values[0]" :max="elem.values[1]" @change="updateValue(elem.name)" :step="(elem.values[1] - elem.values[0])/100" required/>
+                <input :id="elem.post" :name="elem.post" :type="elem.type" :value="elem.default"  :min="elem.values[0]" :max="elem.values[1]" @change="updateValue(elem.post)" :step="(elem.values[1] - elem.values[0])/100" required/>
                 <label for="input" class="max">{{ elem.values[1] }}</label>
                 
-                <label :id="'label' + elem.name" class="current">CURRENT VALUE: {{ elem.default }}</label>
+                <label :id="'label' + elem.post" class="current">CURRENT VALUE: {{ elem.default }}</label>
               </template>
 
               <!-- if input type radio -->
               <div v-if='elem.type == "radiogroup"' class="radiogroup">
                 <template v-for="(valore, index) in elem.values" :key="index">
-                  <input type="radio" :id="elem.name" :defaultValue="elem.default" name="radiogroup" required/>
+                  <input type="radio" :id="elem.post" :defaultValue="elem.default" name="radiogroup" required/>
                   <img :src="valore">
                 </template>
               </div>
@@ -66,22 +66,22 @@
             <!-- else if mandatory == false -->
             <template v-else>
               <!-- if input type text -->
-              <input v-if='elem.type == "text"' :id="elem.name" :name="elem.name" :type="elem.type" :value="elem.default" />
+              <input v-if='elem.type == "text"' :id="elem.post" :name="elem.post" :type="elem.type" :value="elem.default" />
 
               <!-- if input type range -->
               <template v-if='elem.type == "range"'>  
                 <label for="input" class="min">{{ elem.values[0] }}</label>
-                <input :id="elem.name" :type="elem.type" :name="elem.name" :value="elem.default" :min="elem.values[0]" :max="elem.values[1]" :step="(elem.values[1] - elem.values[0])/100" @change="updateValue(elem.name)" />
+                <input :id="elem.post" :type="elem.type" :name="elem.post" :value="elem.default" :min="elem.values[0]" :max="elem.values[1]" :step="(elem.values[1] - elem.values[0])/100" @change="updateValue(elem.post)" />
                 <label for="input" class="max">{{ elem.values[1] }}</label>
 
-                <label :id="'label' + elem.name" class="current">CURRENT VALUE: {{ elem.default }}</label>
+                <label :id="'label' + elem.post" class="current">CURRENT VALUE: {{ elem.default }}</label>
                 
               </template>
 
               <!-- if input type radio -->
               <div v-if='elem.type == "radiogroup"' class="radiogroup">
                 <template v-for="(valore, index) in elem.values" :key="index">
-                  <input :id="elem.name" :name="elem.name" type="radio" :defaultValue="elem.default"/>
+                  <input :id="elem.post" :name="elem.post" type="radio" :defaultValue="elem.default"/>
                   <img :src="valore">
                 </template>
               </div>
@@ -89,8 +89,8 @@
             
             <!-- if elem.hyperparopt = true -->
             <template v-if="elem.hyperparopt">    
-              <label :for="'checkbox' + elem.name" class="hyper">Enable hyper-parameter opt</label>
-              <input type="checkbox" :id="'checkbox' + elem.name" @click="check(elem.name)"/>                            
+              <label :for="'checkbox' + elem.post" class="hyper">Enable hyper-parameter opt</label>
+              <input type="checkbox" :id="'checkbox' + elem.post" @click="check(elem.post)"/>                            
             </template>
 
           </li>
@@ -146,6 +146,7 @@ export default {
       filenames.forEach(element => {
         let array = element.split("\\");
         let fold = array[0].replace("_", " ");
+        fold = this.capitalizeString(fold);
         if(!folder.includes(fold)){
           folder.push(fold)
         }
@@ -158,11 +159,18 @@ export default {
       filenames.forEach(element => {
         let array = element.split("\\")
         let temp = array[0].replace("_", " ");
+        temp = this.capitalizeString(temp);
         if(temp == fold){
           files.push(array[1]);
           }
         })
       return files
+    },
+
+    capitalizeString: function(str){
+      return str.toLowerCase().split(' ').map(function(word) {
+        return word.replace(word[0], word[0].toUpperCase());
+        }).join(' ');
       }
   }
 
