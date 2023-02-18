@@ -147,7 +147,7 @@ export default {
         let array = element.split("\\");
         let fold = array[0].replace("_", " ");
         fold = this.capitalizeString(fold);
-        if(!folder.includes(fold)){
+        if(!folder.includes(fold) && fold!="Settings"){
           folder.push(fold)
         }
       })

@@ -206,9 +206,52 @@ app.post("/submit", (req, res) => {
 
       csvWriter.writeRecords(data)
         .then(() => {
-          console.log('Il file CSV è stato creato correttamente.');
+          
       });
 
+
+      // Creazione del file field.ini
+
+      const pos = dati["plant"];
+      let index = pos.indexOf("),"); // Trova l'indice della fine della prima coppia
+      const xPlant = pos.substring(1, index); // Estrarre la sottostringa della prima coppia
+      const yPlant = pos.substring(index + 4, pos.length - 1);
+      const posDripper = dati["dripper"];
+      index = posDripper.indexOf("),")
+      const xDripper = posDripper.substring(1, index); // Estrarre la sottostringa della prima coppia
+      const yDripper = posDripper.substring(index + 4, posDripper.length - 1);
+      const iniData = {
+        location: {
+          lat: dati["lat"],
+          lon: dati["lon"],
+          z: dati["z"],
+          timeZone: 1
+        },
+        size: {
+          width: dati["width"],
+          height: dati["height"],
+          depth: dati["depth"],
+          cellSize: 0.125
+        },
+        slope: {
+          slopeX: dati["slopeX"],
+          slopeY: dati["slopeY"],
+          plantSlope: dati["plantSlope"],
+          plantSlopeWidth: dati["plantSlopeWidth"]
+        },
+        plant: {
+          x: xPlant,
+          y: yPlant
+        },
+        dripper: {
+          x: xDripper,
+          y: yDripper
+        }
+      };
+
+      const iniString = require('ini').stringify(iniData);
+
+      fs.writeFileSync(`${folderName}/settings/field.ini`, iniString);
 
     });
 

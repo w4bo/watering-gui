@@ -185,7 +185,7 @@ export default {
 				"name": "Position (x, x), (y, y)",
 				"post": "plant",
 				"type": "text",
-				"default": "(0.0, 0.0),(0.0, 0.0)",
+				"default": "(0.0, 0.0), (0.0, 0.0)",
 				"mandatory": "true"
 			}, {
 				"name": "Canopy radius",
