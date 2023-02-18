@@ -80,7 +80,7 @@ export default {
 				"mandatory": "true"
 			}, {
 				"name": "Horizontal/vertical water conductivity ratio",
-				"post": "BOH_1",
+				"post": "conductivity",
 				"url": "https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/WR017i003p00565",
 				"type": "range",
 				"default": 1,
@@ -90,7 +90,7 @@ export default {
 			}],
 			"Soil": [{
 				"name": "Thickness (m)",
-				"post": "BOH_2",
+				"post": "lower_depth",
 				"type": "range",
 				"default": 1,
 				"values": [1, 1.5],
@@ -189,7 +189,7 @@ export default {
 				"mandatory": "true"
 			}, {
 				"name": "Canopy radius",
-				"post": "BOH_3",
+				"post": "rootWidth",
 				"type": "range",
 				"default": 1,
 				"values": [1, 3],
@@ -207,7 +207,7 @@ export default {
 				"hyperparopt": "true"
 			}, {
 				"name": "Root shape",
-				"post": "BOH_4",
+				"post": "rootShape",
 				"type": "radiogroup",
 				"default": 0,
 				"values": [

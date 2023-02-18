@@ -188,8 +188,8 @@ app.post("/submit", (req, res) => {
 
       const data = [
         {
-          upper_depth: '0.0',
-          lower_depth: '0.9',
+          upper_depth: dati["depth"],
+          lower_depth: dati["lower_depth"],
           sand: dati["sand"],
           silt: dati["silt"],
           clay: dati["clay"],
@@ -211,7 +211,6 @@ app.post("/submit", (req, res) => {
 
 
       // Creazione del file field.ini
-
       const pos = dati["plant"];
       let index = pos.indexOf("),"); // Trova l'indice della fine della prima coppia
       const xPlant = pos.substring(1, index); // Estrarre la sottostringa della prima coppia
@@ -248,10 +247,63 @@ app.post("/submit", (req, res) => {
           y: yDripper
         }
       };
-
       const iniString = require('ini').stringify(iniData);
-
       fs.writeFileSync(`${folderName}/settings/field.ini`, iniString);
+
+
+      //CREAZIONE DEL FILE settings.ini
+      const settingsData = {
+        model: {
+          waterRetentionCurve: 2,
+          conductivityMean: 1,
+          conductivityHVRatio: dati["conductivity"],
+          timeZone: 1
+        },
+        processes: {
+          computeInfiltration: "True",
+          computeSurfaceFlow: "False",
+          computeEvaporation: "True",
+          computeTranspiration: "True",
+          assignIrrigation: "True"
+        },
+        boundary: {
+          isFreeDrainage: "True",
+          isFreeLateralDrainage: "True",
+          isSurfaceRunoff: "True",
+          isWaterTable: "False"
+        },
+        initial_conditions: {
+          initialWaterPotential: -4.0,
+          waterTableDepth: -6.0
+        },
+        layers_thickness: {
+          minThickness: 0.01,
+          maxThickness: 0.04,
+          maxThicknessAt: 0.2
+        },
+        surface_properties: {
+          roughness: 0.24,
+          pond: 0.005
+        },
+        numerical_solution: {
+          maxIterationsNr: 100,
+          maxApproximationsNr: 10,
+          residualTolerance: 1E-12,
+          MBRThreshold: 1E-5,
+          minDeltaT: 1,
+          maxDeltaT: 3600.0
+        },
+        simulation_type: {
+          isForecast: "False",
+          isFirstAssimilation: "True",
+          isPeriodicAssimilation: "True",
+          isVisual: "False",
+          assimilationInterval: 24,
+          forecastPeriod: 168
+        },
+      };
+      const settingsString = require('ini').stringify(settingsData);
+      fs.writeFileSync(`${folderName}/settings/settings.ini`, settingsString);
 
     });
 
