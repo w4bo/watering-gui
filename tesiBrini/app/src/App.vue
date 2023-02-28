@@ -81,7 +81,7 @@
               <!-- if input type radio -->
               <div v-if='elem.type == "radiogroup"' class="radiogroup">
                 <template v-for="(valore, index) in elem.values" :key="index">
-                  <input :id="elem.post" :name="elem.post" type="radio" :defaultValue="elem.default"/>
+                  <input :id="elem.post" :name="elem.post" type="radio" :defaultValue="index"/>
                   <img :src="valore">
                 </template>
               </div>
@@ -90,7 +90,8 @@
             <!-- if elem.hyperparopt = true -->
             <template v-if="elem.hyperparopt">    
               <label :for="'checkbox' + elem.post" class="hyper">Enable hyper-parameter opt</label>
-              <input type="checkbox" :id="'checkbox' + elem.post" @click="check(elem.post)"/>                            
+              <input type="checkbox" :id="'checkbox' + elem.post" @click="check(elem.post)"/>
+              <input type="hidden" :id="'tuning_'+elem.post" :name="'tuning_'+elem.post" value="true" disabled>                       
             </template>
 
           </li>
@@ -126,11 +127,14 @@ export default {
     check:function(elem){
       let checkbox = document.getElementById("checkbox" + elem);
       let input = document.getElementsByName(elem);
+      let hidden = document.getElementById("tuning_" + elem)
       for(let i = 0; i < input.length; i++){
         if(checkbox.checked == true){
           input[i].disabled = true;
+          hidden.disabled = false;
         } else {
           input[i].disabled = false;
+          hidden.disabled = true;
         }
       }
     },

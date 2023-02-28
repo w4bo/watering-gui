@@ -12,8 +12,43 @@ app.use(bodyParser.urlencoded({ extended: true}));
 
 app.post("/submit", (req, res) => {
     const dati = req.body
-    console.log(dati)
+    //Controllo sui valori hyperparopt
+    if(!("Ks" in dati)){
+      dati["Ks"] = 0.0000006;
+    }
+    if(!("thetaS" in dati)){
+      dati["thetaS"] = 0.5
+    }
+    if(!("thetaR" in dati)){
+      dati["thetaR"] = 0.03;
+    }
+    if(!("VG_alpha" in dati)){
+      dati["VG_alpha"] = 2.2
+    }
+    if(!("VG_n" in dati)){
+      dati["VG_n"] =1.33;
+    }
+    if(!("VG_he" in dati)){
+      dati["VG_he"] = 0.23
+    }
+    if(!("rootWidth" in dati)){
+      dati["rootWidth"] = 1;
+    }
+    if(!("LAI" in dati)){
+      dati["LAI"] = 4
+    }
+    if(!("rootShape" in dati)){
+      dati["rootShape"] = 0;
+    }
+    if(!("kcMax" in dati)){
+      dati["kcMax"] = 1.65
+    }
+    if(!("fRAW" in dati)){
+      dati["fRAW"] = 0.0000006;
+    }
+
     let folderName = dati["nameMission"]; // sostituire con il nome desiderato per la cartella
+
 
     //Se il nome della simulazione è già stato utilizzato, viene aggiunto un numero
     let folderExist = fs.existsSync(folderName);
@@ -99,13 +134,25 @@ app.post("/submit", (req, res) => {
           console.error(err);
           return;
         }
-        //Creazione del file Wind Speed
+        //Creazione del file Water Potential
         filename = dati["Water Potential"]
         filePath = path.join(__dirname, `public/input/water_potential/${filename}`);
         fs.readFile(filePath, (err, data) => {
           if (err) throw err;
           
-          const newFilePath = `${folderName}/obs_data/water_potential.csv`;
+          const newFilePath = `${folderName}/obs_data/waterPotential.csv`;
+          fs.writeFile(newFilePath, data, (err) => {
+            if(err) throw err;
+          })
+        });
+
+        //Creazione del file water Content
+        filename = dati["Water Content"]
+        filePath = path.join(__dirname, `public/input/water_content/${filename}`);
+        fs.readFile(filePath, (err, data) => {
+          if (err) throw err;
+          
+          const newFilePath = `${folderName}/obs_data/waterContent.csv`;
           fs.writeFile(newFilePath, data, (err) => {
             if(err) throw err;
           })
@@ -186,15 +233,15 @@ app.post("/submit", (req, res) => {
         ]
       });
 
-      const data = [
+      const soilData = [
         {
-          upper_depth: dati["depth"],
+          upper_depth: 0.0,
           lower_depth: dati["lower_depth"],
           sand: dati["sand"],
           silt: dati["silt"],
           clay: dati["clay"],
-          Campbell_he: '0.23',
-          Campbell_b: '5.4',
+          Campbell_he: 0.23,
+          Campbell_b: 5.4,
           VG_he: dati["VG_he"],
           VG_alpha: dati["VG_alpha"],
           VG_n: dati["VG_n"],
@@ -204,7 +251,7 @@ app.post("/submit", (req, res) => {
         }
       ];
 
-      csvWriter.writeRecords(data)
+      csvWriter.writeRecords(soilData)
         .then(() => {
           
       });
@@ -219,7 +266,7 @@ app.post("/submit", (req, res) => {
       index = posDripper.indexOf("),")
       const xDripper = posDripper.substring(1, index); // Estrarre la sottostringa della prima coppia
       const yDripper = posDripper.substring(index + 4, posDripper.length - 1);
-      const iniData = {
+      const fieldData = {
         location: {
           lat: dati["lat"],
           lon: dati["lon"],
@@ -247,7 +294,7 @@ app.post("/submit", (req, res) => {
           y: yDripper
         }
       };
-      const iniString = require('ini').stringify(iniData);
+      const iniString = require('ini').stringify(fieldData);
       fs.writeFileSync(`${folderName}/settings/field.ini`, iniString);
 
 
@@ -257,7 +304,6 @@ app.post("/submit", (req, res) => {
           waterRetentionCurve: 2,
           conductivityMean: 1,
           conductivityHVRatio: dati["conductivity"],
-          timeZone: 1
         },
         processes: {
           computeInfiltration: "True",
@@ -295,8 +341,8 @@ app.post("/submit", (req, res) => {
         },
         simulation_type: {
           isForecast: "False",
-          isFirstAssimilation: "True",
-          isPeriodicAssimilation: "True",
+          isFirstAssimilation: "False",
+          isPeriodicAssimilation: "False",
           isVisual: "False",
           assimilationInterval: 24,
           forecastPeriod: 168
@@ -305,6 +351,179 @@ app.post("/submit", (req, res) => {
       const settingsString = require('ini').stringify(settingsData);
       fs.writeFileSync(`${folderName}/settings/settings.ini`, settingsString);
 
+
+      //CREAZIONE DEL FILE crop.ini
+      let x;
+      let z;
+      switch(dati["rootShape"]){
+        case "0":
+          x = 0;
+          z = 0;
+          break;
+        case "1":
+          x = 1;
+          z = 0;
+          break;
+        case "2":
+          x = 0.5;
+          z = 0;
+          break;
+        default:
+          x = 0;
+          z = 0;
+      }
+/*      
+      const cropData = {
+        info: {
+          name: "kiwifruit"
+        },
+        LAI: {
+          laiMonth: `0.5,0.5,1.0,3.0,${dati["LAI"]},${dati["LAI"]},${dati["LAI"]},${dati["LAI"]},${dati["LAI"]},3.5,0.5,0.5`,
+        },
+        root:{
+          rootDepthZero: 0.1,
+          rootDepthMax: 0.75,
+          rootWidth: dati["rootWidth"],
+          rootXDeformation: x,
+          rootZDeformation: z
+        },
+        transpiration: {
+          kcMax: dati["kcMax"],
+          fRAW: dati["fRAW"]
+        }
+
+      };
+      const cropString = require('ini').stringify(cropData);
+      fs.writeFileSync(`${folderName}/settings/crop.ini`, cropString);
+*/
+
+      const cropIniContent = 
+`[info]
+name = "kiwifruit"
+        
+[LAI]
+laiMonth = 0.5,0.5,1.0,3.0,${dati["LAI"]},${dati["LAI"]},${dati["LAI"]},${dati["LAI"]},${dati["LAI"]},3.5,0.5,0.5
+        
+[root]
+rootDepthZero = 0.1
+rootDepthMax = 0.75
+rootWidth = ${dati["rootWidth"]}
+rootXDeformation = ${x}
+rootZDeformation = ${z}
+        
+[transpiration]
+kcMax = ${dati["kcMax"]}
+fRAW = ${dati["fRAW"]}`;
+        
+      fs.writeFile(`${folderName}/settings/crop.ini`, cropIniContent, (err) => {
+        if (err) throw err;
+      });
+
+      // CREAZIONE DEL FILE tuning_space.json
+      let jsonContent = {}
+      if("tuning_Ks" in dati){
+        jsonContent.Ks = {
+          "loguniform": [
+            0.0000001,
+            0.001
+          ]
+        }
+      }
+      if("tuning_thetaS" in dati){
+        jsonContent.thetaS = {
+          "uniform": [
+            0.0,
+            1.0
+          ]
+        }
+      }
+      if("tuning_thetaR" in dati){
+        jsonContent.thetaR = {
+          "uniform": [
+            0.0,
+            1.0
+          ]
+        }
+      }
+      if("tuning_VG_alpha" in dati){
+        jsonContent.VG_alpha = {
+          "loguniform": [
+            0.5,
+            5.0
+          ]
+        }
+      }
+      if("tuning_VG_n" in dati){
+        jsonContent.VG_n = {
+          "loguniform": [
+            1,
+            2
+          ]
+        }
+      }
+      if("tuning_VG_he" in dati){
+        jsonContent.VG_he = {
+          "loguniform": [
+            0.001,
+            15
+          ]
+        }
+      }
+      if("tuning_rootWidth" in dati){
+        jsonContent.rootWidth = {
+          "uniform": [
+            1,
+            3
+          ]
+        }
+      }
+      if("tuning_LAI" in dati){
+        jsonContent.LAI = {
+          "uniform": [
+            0.5,
+            5
+          ]
+        }
+      }
+      if("tuning_rootShape" in dati){
+        jsonContent.rootXDeformation = {
+          "uniform": [
+              0.0,
+              1.0
+          ]
+        }
+        jsonContent.rootZDeformation = {
+          "uniform": [
+              0.0,
+              1.0
+          ]
+        }
+      }
+
+      if("tuning_kcMax" in dati){
+        jsonContent.kcMax = {
+          "uniform": [
+            0.5,
+            3.0
+          ]
+        }
+      }
+      if("tuning_fRAW" in dati){
+        jsonContent.fRAW = {
+          "uniform": [
+            0,
+            1
+          ]
+        }
+      }
+      const jsonContentString = JSON.stringify(jsonContent, null, 2);
+      fs.writeFile(`${folderName}/settings/tuning_space.json`, jsonContentString, (err) => {
+        if (err) {
+          console.error(err);
+          res.send('Errore nella scrittura del file');
+        }
+      });
+      
     });
 
 });
