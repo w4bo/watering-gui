@@ -23,7 +23,7 @@ export default {
 				"post": "slopeX",
 				"url": "https://en.wikipedia.org/wiki/Slope",
 				"type": "range",
-				"default": 0,
+				"default": -0.01,
 				"values": [-10, 10],
 				"scale": "linear",
 				"mandatory": "true"
@@ -32,7 +32,7 @@ export default {
 				"post": "slopeY",
 				"url": "https://en.wikipedia.org/wiki/Slope",
 				"type": "range",
-				"default": 0,
+				"default": -0.025,
 				"values": [-10, 10],
 				"scale": "linear",
 				"mandatory": "true"
@@ -41,7 +41,7 @@ export default {
 				"post": "plantSlope",
 				"url": "https://en.wikipedia.org/wiki/Slope",
 				"type": "range",
-				"default": 0,
+				"default": 0.2,
 				"values": [-10, 10],
 				"scale": "linear",
 				"mandatory": "true"
@@ -49,7 +49,7 @@ export default {
 				"name": "Mound width (m)",
 				"post": "plantSlopeWidth",
 				"type": "range",
-				"default": 1,
+				"default": 1.0,
 				"values": [0, 2],
 				"scale": "linear",
 				"mandatory": "true"
@@ -58,24 +58,24 @@ export default {
 				"name": "Simulated volume height (m)",
 				"post": "height",
 				"type": "range",
-				"default": 1,
-				"values": [1, 10],
+				"default": 0.6,
+				"values": [0, 10],
 				"scale": "linear",
 				"mandatory": "true"
 			}, {
 				"name": "Simulated volume width (m)",
 				"post": "width",
 				"type": "range",
-				"default": 1,
-				"values": [1, 10],
+				"default": 2.0,
+				"values": [0, 10],
 				"scale": "linear",
 				"mandatory": "true"
 			}, {
 				"name": "Simulated volume depth (m)",
 				"post": "depth",
 				"type": "range",
-				"default": 1,
-				"values": [1, 1.5],
+				"default": 0.8,
+				"values": [0, 1.5],
 				"scale": "linear",
 				"mandatory": "true"
 			}, {
@@ -185,7 +185,7 @@ export default {
 				"name": "Position (x, x), (y, y)",
 				"post": "plant",
 				"type": "text",
-				"default": "(0.0, 0.0), (0.0, 0.0)",
+				"default": "(0.0, 0.0), (-0.3, 1.7)",
 				"mandatory": "true"
 			}, {
 				"name": "Canopy radius",
