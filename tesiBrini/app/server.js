@@ -69,7 +69,7 @@ app.post("/submit", (req, res) => {
         return;
       }
 
-      res.send(`Cartella ${folderName} creata con successo.`);
+      res.send(`Cartella ${folderName} generata con successo. Sottometterla al simulatore per avviare la simulazione!`);
       
       //CREAZIONE DELLA CARTELLA METEO
       fs.mkdir(`${folderName}/meteo`, (err) => {
